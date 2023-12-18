@@ -6,34 +6,41 @@ ctk.set_default_color_theme("blue")
 ctk.set_widget_scaling(1.5)
 root = ctk.CTk()
 root.title("Calculator")
-root.geometry("625x425")
+root.geometry("575x425")
 root.resizable(False, False)
 root.iconbitmap('calculator.ico')
 
 sum_1 = ""
 count = 0
+
 def numbers(numb):
     global sum_1
-    sum_1 += str(numb)
-    label = ctk.CTkLabel(root, text=f"{sum_1}").grid(row=1, column=1, padx=10, pady=10)
-
-
+    global count
+    if count == 0:
+        sum_1 += str(numb)
+        textbox_1.insert("end", numb)
+        textbox_2.delete(0.0, "end")
+    else:
+        #numb = count
+        sum_1 = ""
+        sum_1 += str(numb)
+        textbox_1.insert("end", count)
+        textbox_2.delete(0.0, "end")
 
 def ecuals():
     global sum_1
     global count
     count = eval(sum_1)
-    label = ctk.CTkLabel(root, text=f"RES: {count}").grid(row=1, column=2, padx=10, pady=10)
-
+    textbox_1.delete(0.0, "end")
+    textbox_2.insert("end", count)
 
 def acc():
     global sum_1
     global count
     sum_1 = ""
     count = 0
-
-
-
+    textbox_1.delete(0.0, "end")
+    textbox_2.delete(0.0, "end")
 
 button = ctk.CTkButton(root, fg_color='red', height = 15, width = 75, command=acc, text="ACC").grid(row=1, column=0, padx=10, pady=10)
 button = ctk.CTkButton(root, height = 10, width = 75, command=lambda: (numbers(1)), text="1").grid(row=2, column=0, padx=10, pady=10)
@@ -52,9 +59,11 @@ button = ctk.CTkButton(root, height = 10, width = 75, command=lambda: (numbers('
 button = ctk.CTkButton(root, height = 10, width = 75, command=lambda: (numbers('-')), text="-").grid(row=3, column=3, padx=10, pady=10)
 button = ctk.CTkButton(root, height = 10, width = 75, command=lambda: (numbers('*')), text="*").grid(row=4, column=3, padx=10, pady=10)
 button = ctk.CTkButton(root, fg_color='green', height = 10, width = 75, command=ecuals, text="=").grid(row=5, column=3, padx=10, pady=10)
-# label = ctk.CTkLabel(root, text="КАЛЬК").grid(row=0, column=0, padx=10, pady=10)
-#textbox = ctk.CTkTextbox(root, height = 10, width = 75).grid(row=0, column=0, padx=10, pady=10)
-
-
+label = ctk.CTkLabel(root, text=f"CALC:").grid(row=0, column=0, padx=10, pady=10)
+textbox_1 = ctk.CTkTextbox(root, height = 10, width = 75)
+textbox_1.grid(row=0, column=1, padx=10, pady=10)
+label = ctk.CTkLabel(root, text=f"RESULT:").grid(row=0, column=2, padx=10, pady=10)
+textbox_2 = ctk.CTkTextbox(root, height = 10, width = 75)
+textbox_2.grid(row=0, column=3, padx=10, pady=10)
 
 root.mainloop()
